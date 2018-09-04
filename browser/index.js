@@ -93,7 +93,7 @@ var createBufferBtn = function () {
     var isochroneAction = LeafletToolbar.ToolbarAction.extend({
         options: {
             toolbarIcon: {
-                className: 'fa fa-map-o showIsoBtn deactiveBtn'
+                className: 'fas fa-map showIsoBtn deactiveBtn'
 
             },
             color: "#000",
@@ -162,7 +162,7 @@ var createBufferBtn = function () {
     var MyCustomAction = LeafletToolbar.ToolbarAction.extend({
         options: {
             toolbarIcon: {
-                className: 'fa fa-circle-thin deactiveBtn',
+                className: 'far fa-circle fa fa-circle-thin deactiveBtn',
                 color: "#000"
             },
             subToolbar: new LeafletToolbar({
@@ -219,7 +219,7 @@ var createBufferBtn = function () {
     var MyCustomAction2 = LeafletToolbar.ToolbarAction.extend({
         options: {
             toolbarIcon: {
-                className: 'fa fa-map-o'
+                className: 'fas fa-map'
 
             },
             color: "#000",
