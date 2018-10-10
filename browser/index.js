@@ -36,21 +36,21 @@ var profiles = {
         cellSize: 0.8,
         concavity: 2,
         lengthThreshold: 0,
-        endpoint: "https://gc2.io/galton/car"
+        endpoint: "https://galton-car.gc2.io/galton/car"
     },
     bicycle: {
         radius: 15,
         cellSize: 0.2,
         concavity: 2,
         lengthThreshold: 0,
-        endpoint: "https://gc2.io/galton/bicycle"
+        endpoint: "https://galton-bicycle.gc2.io/galton/bicycle"
     },
     foot: {
         radius: 6,
         cellSize: 0.07,
         concavity: 2,
         lengthThreshold: 0,
-        endpoint: "https://gc2.io/galton/foot"
+        endpoint: "https://galton-foot.gc2.io/galton/foot"
     }
 };
 
@@ -387,7 +387,7 @@ module.exports = {
                 } catch (e) {
                     console.log(e.message)
                 }
-            }  else {
+            } else {
                 drawnItemsPolygon.clearLayers();
             }
         });
@@ -444,7 +444,7 @@ var buffer = function () {
     store.sql = JSON.stringify([reader.read(c1).toText(), reader.read(c2).toText()]);
     //cloud.addGeoJsonStore(store);
     store.load();
-    iso();
+    //iso();
 };
 
 var polygon = function () {
@@ -494,19 +494,19 @@ var iso = function () {
     layers.incrementCountLoading("_vidi_isochrone");
     backboneEvents.get().trigger("startLoading:layers");
 
-    //mapObj.addLayer(isochrone.gridSource);
-    /*   mapObj.addLayer(isochrone.pointLayer);
-     isochrone.pointLayer.addLayer(
-     L.circleMarker([p.y, p.x], {
-     color: '#ffffff',
-     fillColor: '#000000',
-     opacity: 1,
-     fillOpacity: 1,
-     weight: 3,
-     radius: 12,
-     clickable: false
-     })
-     );*/
+    mapObj.addLayer(isochrone.gridSource);
+    mapObj.addLayer(isochrone.pointLayer);
+    isochrone.pointLayer.addLayer(
+        L.circleMarker([p.y, p.x], {
+            color: '#ffffff',
+            fillColor: '#000000',
+            opacity: 1,
+            fillOpacity: 1,
+            weight: 3,
+            radius: 12,
+            clickable: false
+        })
+    );
 
     var url = new URL(profiles.car.endpoint);
 
@@ -577,7 +577,7 @@ var createStore = function (type) {
                         layer = drawnItemsMarker._layers[prop];
                         break;
                     }
-                    $("#r-coord-val").html("L: " + ( Math.round(layer._latlng.lng * 10000) / 10000) + ", B: " + ( Math.round(layer._latlng.lat * 10000) / 10000));
+                    $("#r-coord-val").html("L: " + (Math.round(layer._latlng.lng * 10000) / 10000) + ", B: " + (Math.round(layer._latlng.lat * 10000) / 10000));
 
 
                     if (feature.properties.radius === "500") {
@@ -595,11 +595,13 @@ var createStore = function (type) {
                     }
 
                     $.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + layer._latlng.lat + "," + layer._latlng.lng, function (data) {
-                        console.log(data)
-                        $(".r-adr-val").html(data.results[0].formatted_address);
-                        $("#r-url-email").removeClass("disabled");
-                        $("#r-url-link").removeClass("disabled");
-                        upDatePrintComment();
+                        console.log(data);
+                        if (data.results.length > 0) {
+                            $(".r-adr-val").html(data.results[0].formatted_address);
+                            $("#r-url-email").removeClass("disabled");
+                            $("#r-url-link").removeClass("disabled");
+                            upDatePrintComment();
+                        }
                     });
 
                 }
