@@ -15,7 +15,7 @@ var urlVars = require('./../../../browser/modules/urlparser').urlVars;
 var hostname = "https://kort.detailhandelsportalen.dk";
 var backboneEvents;
 var isochrone;
-var isoActive = false;
+var isoActive = true;
 var mapObj;
 var clicktimer;
 var utils;
@@ -444,7 +444,7 @@ var buffer = function () {
     store.sql = JSON.stringify([reader.read(c1).toText(), reader.read(c2).toText()]);
     //cloud.addGeoJsonStore(store);
     store.load();
-    //iso();
+    iso();
 };
 
 var polygon = function () {
@@ -594,7 +594,7 @@ var createStore = function (type) {
                         $(".r1000-val-fb_total").html((Math.round(parseInt(feature.properties.fb_total) / 5000) * 5000).toLocaleString("da-DK") + " kr/år");
                     }
 
-                    $.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + layer._latlng.lat + "," + layer._latlng.lng, function (data) {
+                    $.get("https://maps.googleapis.com/maps/api/geocode/json?key=xxxx&latlng=" + layer._latlng.lat + "," + layer._latlng.lng, function (data) {
                         console.log(data);
                         if (data.results.length > 0) {
                             $(".r-adr-val").html(data.results[0].formatted_address);
